@@ -1,4 +1,4 @@
-package com.example;
+package com.example.tests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.*;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.example.ParameterizedTests.Direction.EAST;
+import static com.example.tests.ParameterizedTests.Direction.EAST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParameterizedTests {

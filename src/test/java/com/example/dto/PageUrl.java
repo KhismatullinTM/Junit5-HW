@@ -1,4 +1,4 @@
-package com.example.demoqa;
+package com.example.dto;
 
 public class PageUrl {
     private String endPoint;
