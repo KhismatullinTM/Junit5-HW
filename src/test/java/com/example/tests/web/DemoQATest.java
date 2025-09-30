@@ -7,19 +7,14 @@ import com.codeborne.selenide.SelenideElement;
 import com.example.dto.PageUrl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DemoQATest extends BaseTest {
 
-    @DisplayName("Проверка заголовка страницы")
+    // todo добавьте нужную аннотацию, чтобы у теста появилось описание в консоли при запуске.
+    //  Пример: "Проверка заголовка страницы"
     @Test
     void checkPageTitle() {
         String expectedTitle = "DEMOQA";
@@ -28,20 +23,15 @@ public class DemoQATest extends BaseTest {
                 "Заголовок страницы должен содержать 'DEMOQA'");
     }
 
-    @Disabled
+    // todo добавьте нужную аннотацию, чтобы тест не запускался
     @Test
     void disabledTestExample() {
         Assertions.fail("Этот тест не должен запускаться!");
     }
 
-    @ValueSource(strings = {
-            "Elements",
-            "Forms",
-            "Alerts, Frame & Windows",
-            "Widgets",
-            "Interactions",
-            "Book Store Application"
-    })
+
+    // todo Добавьте нужную аннотацию со значениями ниже, чтобы тест заработал
+    //  "Elements", "Forms", "Alerts, Frame & Windows", "Widgets", "Interactions", "Book Store Application"
     @ParameterizedTest(name = "Проверка наличия карточки: {0}")
     void checkCardExists(String cardName) {
         ElementsCollection cards = $$("div.card-body");
@@ -49,7 +39,9 @@ public class DemoQATest extends BaseTest {
         Assertions.assertTrue(isCardPresent, "Карточка '" + cardName + "' должна присутствовать на странице");
     }
 
-    @Tag("SINGLE")
+    // todo добавьте сюда нужную аннотацию, которая будет содержать значение "SINGLE"
+    //  затем в консоли с помощью команды mvn test -Dgroups=SINGLE запустите тест
+    //  Убедитесь что запустился только 1 тест
     @Test
     void clickElementsCard() {
         SelenideElement elementsCard = $$("div.card-body").find(Condition.text("Elements"));
@@ -62,14 +54,13 @@ public class DemoQATest extends BaseTest {
         );
     }
 
-    @CsvSource(value = {
-            "Elements | elements",
-             "Forms | forms",
-             "Alerts, Frame & Windows | alerts",
-             "Widgets | widgets",
-             "Interactions | interaction",
-             "Book Store Application | books"
-    }, delimiter = '|')
+    //todo Добавьте нужную аннотацию со значениями ниже, чтобы тест заработал
+    // "Elements | elements",
+    // "Forms | forms",
+    // "Alerts, Frame & Windows | alerts",
+    // "Widgets | widgets",
+    // "Interactions | interaction",
+    // "Book Store Application | books"
     @ParameterizedTest(name = "Проверка URL для карточки: {0} → должен содержать '{1}'")
     void checkCardNavigation(String cardName, String expectedUrlFragment) {
         // Находим карточку по названию и кликаем
@@ -85,7 +76,7 @@ public class DemoQATest extends BaseTest {
     }
 
 
-    @MethodSource("cardNameAndUrlProvider")
+    //todo Добавьте нужную аннотацию чтобы тест заработал
     @ParameterizedTest(name = "Проверка URL для карточки: {0} → должен содержать '{1}'")
     void checkCardNavigation(String cardName, PageUrl pageUrl) {
         // Находим карточку по названию и кликаем
@@ -97,17 +88,6 @@ public class DemoQATest extends BaseTest {
         Assertions.assertTrue(
                 currentUrl.contains(pageUrl.getEndPoint()),
                 String.format("URL '%s' должен содержать фрагмент '%s'", currentUrl, pageUrl)
-        );
-    }
-
-    static Stream<Arguments> cardNameAndUrlProvider() {
-        return Stream.of(
-                Arguments.of("Elements", new PageUrl().setEndPoint("elements")),
-                Arguments.of("Forms", new PageUrl().setEndPoint("forms")),
-                Arguments.of("Alerts, Frame & Windows", new PageUrl().setEndPoint("alerts")),
-                Arguments.of("Widgets", new PageUrl().setEndPoint("widgets")),
-                Arguments.of("Interactions", new PageUrl().setEndPoint("interaction")),
-                Arguments.of("Book Store Application", new PageUrl().setEndPoint("books"))
         );
     }
 }
