@@ -25,7 +25,7 @@ public class SetUpBrowserExtension implements BeforeAllCallback, BeforeEachCallb
         String url = resolveUrl(context).orElse("https://demoqa.com/");
         Selenide.open(url);
         $("body").shouldBe(visible);
-        System.out.printf(">>> [BeforeEach] Открыта страница: %s (Extension)%n");
+        System.out.println(">>> [BeforeEach] Открыта страница: %s (Extension)%n");
     }
 
     @Override
