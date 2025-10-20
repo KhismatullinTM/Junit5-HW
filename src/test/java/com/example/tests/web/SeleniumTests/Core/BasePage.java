@@ -15,12 +15,26 @@ public abstract class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    protected WebElement visible(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void openDemoqaPage() {
+        driver.get("https://demoqa.com/");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector(".card.mt-4.top-card")));
     }
-    protected void type(WebElement el, String value) {
-        wait.until(ExpectedConditions.elementToBeClickable(el));
-        el.clear();
-        el.sendKeys(value);
+
+    public void close() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    public void openTab(String tabName) {
+        By menuItem = By.xpath("//span[normalize-space()='" + tabName + "']");
+        wait.until(ExpectedConditions.elementToBeClickable(menuItem)).click();
+    }
+
+    public void fillField(WebElement input, String text) {
+        wait.until(ExpectedConditions.elementToBeClickable(input));
+        input.clear();
+        input.sendKeys(text);
     }
 }

@@ -1,11 +1,9 @@
 package com.example.tests.web.SeleniumTests.TestScripts;
 
 import com.example.tests.web.SeleniumTests.Pages.PracticeForm;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.*;
-
+import com.example.tests.web.SeleniumTests.Core.WebDriverManager;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PracticeFormTest {
@@ -14,9 +12,7 @@ public class PracticeFormTest {
 
     @BeforeEach
     void setUp() {
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver(new FirefoxOptions());
-        driver.manage().window().maximize();
+        driver = WebDriverManager.createFirefox();
         form = new PracticeForm(driver);
     }
 
@@ -33,7 +29,6 @@ public class PracticeFormTest {
         form.setAddress("Sterlitamak");
         form.submit();
 
-        // Быстрая проверка появления модалки
         assertTrue(driver.getPageSource().contains("Thanks for submitting the form"),
                 "Ожидаем модалку результата после Submit");
     }
