@@ -11,20 +11,18 @@ public class PracticeForm extends BasePage {
         super(driver);
     }
 
-    @FindBy(id = "firstName") private WebElement firstName;
-
-    @FindBy(id = "lastName") private WebElement lastName;
-
-    @FindBy(id = "userEmail") private WebElement userEmail;
-
-    @FindBy(id = "userNumber") private WebElement userNumber;
-
-    @FindBy(id = "currentAddress") private WebElement currentAddress;
-
-    @FindBy(id = "submit") private WebElement submitBtn;
-
-    @FindBy(xpath = "//label[normalize-space()='Male']/preceding-sibling::input")
-    private WebElement genderMale;
+    @FindBy(xpath = "//input[@id = 'firstName']") private WebElement firstName;
+    @FindBy(xpath = "//input[@id = 'lastName']") private WebElement lastName;
+    @FindBy(xpath = "//input[@id = 'userEmail']") private WebElement userEmail;
+    @FindBy(xpath = "//input[@id = 'userNumber']") private WebElement userNumber;
+    @FindBy(xpath = "//textarea[@id ='currentAddress']") private WebElement currentAddress;
+    @FindBy(xpath = "//label[@for='gender-radio-1' and normalize-space()='Male']") private WebElement genderMaleLabel;
+    @FindBy(xpath = "//input [@for = 'gender-radio-2' and normalize-space()='Female']") private WebElement genderFemaleLabel;
+    @FindBy(xpath = "//input [@for = 'gender-radio-3' and normalize-space()='Other']") private WebElement genderOtherLabel;
+    @FindBy(xpath = "//label[@for='hobbies-checkbox-1' and normalize-space()='Sports']") private WebElement hobbySportsLabel;
+    @FindBy(xpath = "//label[@for='hobbies-checkbox-2' and normalize-space()='Reading']") private WebElement hobbyReadingLabel;
+    @FindBy(xpath = "//label[@for='hobbies-checkbox-3' and normalize-space()='Music']") private WebElement hobbyMusicLabel;
+    @FindBy(xpath = "//button[@id = 'submit']") private WebElement submitBtn;
 
     public void open() {
         driver.get("https://demoqa.com/automation-practice-form");
@@ -41,9 +39,7 @@ public class PracticeForm extends BasePage {
     }
 
     public void selectMale() {
-        if (!genderMale.isSelected()) {
-            genderMale.findElement(By.xpath("following-sibling::label[1]")).click();
-        }
+        genderMaleLabel.click();
     }
 
     public void setPhone(String phone) {
@@ -52,6 +48,10 @@ public class PracticeForm extends BasePage {
 
     public void setAddress(String address) {
         fillField(currentAddress, address);
+    }
+
+    public void setHobbie() {
+        hobbySportsLabel.click();
     }
 
     public void submit() {

@@ -27,6 +27,7 @@ public class PracticeFormTest {
         form.selectMale();
         form.setPhone("79944453653");
         form.setAddress("Sterlitamak");
+        form.setHobbie();
         form.submit();
 
         assertTrue(driver.getPageSource().contains("Thanks for submitting the form"),
