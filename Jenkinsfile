@@ -1,20 +1,19 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.9.9-eclipse-temurin-21'
-      args '-v $HOME/.m2:/root/.m2'
-    }
-  }
+  agent any
 
-  options { timestamps() }
+  tools { maven 'MavenTestsDemoQA' }
 
   parameters {
-    string(name: 'TAGS', defaultValue: '@WebTest', description: 'Cucumber tags to run')
+    string(name: 'CUCUMBER_TAGS', defaultValue: '', description: @WebTest)
   }
 
   triggers {
+    cron('H 20 * * 1')
+  }
 
-    cron('0 20 * * 1')
+  options {
+    timestamps()
+    ansiColor('xterm')
   }
 
   stages {
@@ -22,22 +21,20 @@ pipeline {
       steps { checkout scm }
     }
 
-    stage('Run Tests') {
+    stage('Test (Maven)') {
       steps {
-        sh """
-          mvn -q clean test \
-            -Dtest=com.example.tests.web.cucumbertests.Runner \
-            -Dcucumber.filter.tags="${TAGS}" \
-            -Dcucumber.plugin='pretty,html:target/cucumber-report.html,json:target/cucumber.json'
-        """
+        sh '''
+          mvn -V -B clean test \
+            -Dcucumber.filter.tags="${CUCUMBER_TAGS}"
+        '''
       }
     }
   }
 
   post {
     always {
-      junit 'target/surefire-reports/*.xml'
-      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/cucumber-report.html,target/cucumber.json'
+      junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+      archiveArtifacts allowEmptyArchive: true, artifacts: 'target/**/*.html, target/**/*.json, target/**/*.xml'
     }
   }
 }
