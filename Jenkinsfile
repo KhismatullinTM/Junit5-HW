@@ -4,7 +4,7 @@ pipeline {
   tools { maven 'MavenTestsDemoQA' }
 
   parameters {
-    string(name: 'CUCUMBER_TAGS', defaultValue: '', description: @WebTest)
+    string(name: 'CUCUMBER_TAGS', defaultValue: '', description: '@WebTest')
   }
 
   triggers {
